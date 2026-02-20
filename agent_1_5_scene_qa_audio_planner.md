@@ -7,7 +7,7 @@ Input: output Agente 1 (scene 1-20 con voiceover intoccabile + rischio).
 Output: un pacchetto **pronto da incollare** in Agente 2, includendo:
 1) decisioni A/B/C scena-per-scena,
 2) il **voiceover finale per ogni scena** dopo split/spostamenti,
-3) una lista di istruzioni tecniche per il prompt (realismo/continuità/NO HUMANS),
+3) una lista di istruzioni tecniche (realismo/continuità/NO HUMANS),
 4) un blocco unico copy-paste.
 
 ## Vincoli assoluti
@@ -16,16 +16,28 @@ Output: un pacchetto **pronto da incollare** in Agente 2, includendo:
 - **Audio buffer:** considera `Durata - 1.5s`.
 - **NO HUMANS:** correggi qualsiasi violazione.
 
-## Regola chiave (mancante prima)
-Le sole decisioni A/B/C NON bastano: devi produrre un **"VOICEOVER MAP"** finale:
-- per ogni scena (e sotto-scena) scrivi il voiceover ESATTO che Agente 2 dovrà inserire.
-- se fai spostamenti (B), mostra chiaramente da quale scena a quale scena e il risultato finale.
+## Regole chiave (CRITICHE)
+### 1) COERENZA DECISIONI
+- Usa **A** SOLO se crei davvero sotto-scene (es. 9A/9B/9C) e le elenchi nella VOICEOVER MAP.
+- Usa **B** SOLO per spostamenti/assorbimenti tra scene (indica sempre testo spostato e destinazione).
+- Usa **C** SOLO se la scena resta invariata (nessuno split, nessuno spostamento).
+- Vietato scrivere "A ma nessuno split".
+
+### 2) SCENE DA GENERARE (OBBLIGATORIO)
+Dopo aver applicato A/B/C, devi generare una lista ordinata delle unità finali che Agente 2 deve trasformare in prompt:
+Esempio: `1, 2, 3, 4, 5, 6, 7, 8, 9A, 9B, 9C, 10, 11A, 11B, ...`
+
+### 3) VOICEOVER MAP COMPLETA
+La VOICEOVER MAP deve includere:
+- tutte le scene finali,
+- tutte le sotto-scene create,
+- per le scene che ricevono testo (B), indica in nota breve: `(include testo da Scena X)`.
 
 ## Metodo
 1) Leggi metadati e calcola max parlato.
 2) Applica A/B/C.
-3) Genera la mappa finale dei voiceover.
-4) Evidenzia eventuali scene che restano ancora a rischio.
+3) Genera `SCENE DA GENERARE`.
+4) Genera VOICEOVER MAP finale e marca eventuali residui `OVERFLOW` (senza cambiare parole).
 
 ## Formato output obbligatorio (unico blocco)
 
@@ -36,24 +48,23 @@ DURATA SCENA: 6s
 BUFFER AUDIO: 1.5s (max parlato 4.5s)
 
 ### 1) DECISIONI AUDIO (A/B/C)
-- Scena 1: A -> 1A/1B
-- Scena 5: B -> sposta "..." a Scena 6
-...
+- Scena 9: A -> 9A/9B/9C
+- Scena 10: B -> sposta "..." a Scena 11
+- Scena 12: C
 
-### 2) VOICEOVER MAP (FINALE, PRONTO)
-SCENA 1A VO: "..."
-SCENA 1B VO: "..."
-SCENA 2 VO: "..."
-SCENA 5 VO: "..."
-SCENA 6 VO: "..."  (include testo spostato da Scena 5)
-SCENA 7 VO: "..."  (include testo spostato da Scena 6)
-...
+### 2) SCENE DA GENERARE (FINALE)
+1, 2, 3, 4, 5, 6, 7, 8, 9A, 9B, 9C, 10, 11A, 11B, 12, ...
 
-### 3) NOTE VISIVE (FIX LIST)
-- Scena X: ...
+### 3) VOICEOVER MAP (FINALE, PRONTO)
+SCENA 9A VO: "..."
+SCENA 11 VO: "..." (include testo da Scena 10)
 
-### 4) PROMPT DA INCOLLARE IN AGENTE 2
+### 4) NOTE VISIVE (FIX LIST)
+- ...
+
+### 5) PROMPT DA INCOLLARE IN AGENTE 2
 Istruzioni operative:
+- Genera prompt solo per `SCENE DA GENERARE`.
 - NON rinumerare le scene.
 - Se splitti, usa sotto-scene.
 - Inserisci per ogni scena il voiceover ESATTO dalla VOICEOVER MAP.
