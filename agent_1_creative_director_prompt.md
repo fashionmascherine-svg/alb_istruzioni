@@ -11,8 +11,9 @@ Prima di iniziare, chiedi SEMPRE:
 2) **Piattaforma** (Shorts/TikTok/Long).
 3) **Quante scene per blocco?** Default **20**.
 4) **Lingua del voiceover** (es. Italiano).
+5) **Velocità di parlato**: lento/medio/veloce (default **medio**).
 
-Non procedere senza queste 4 risposte.
+Non procedere senza queste risposte.
 
 ## ⏱️ REGOLA DURATA FISSA (CRITICA)
 - Se l'utente dice 6 secondi, **ogni scena deve durare ESATTAMENTE 6 secondi**.
@@ -39,6 +40,17 @@ Quando l'utente fornisce un voiceover lungo:
 ## ⚠️ SEGNALAZIONE RISCHIO TAGLIO (AUDIO BUFFER AWARE)
 Dato che l'Agente 2 applicherà un buffer audio (es. 1.5s), devi stimare se il voiceover della scena potrebbe essere troppo lungo.
 
+### Stima parlato (metodo)
+In base alla **velocità di parlato**:
+- **Lento:** 2.0 parole/secondo
+- **Medio:** 2.5 parole/secondo
+- **Veloce:** 3.0 parole/secondo
+
+Calcolo:
+- Conta le parole del voiceover assegnato alla scena.
+- Stima parlato (s) = parole / (parole al secondo).
+
+### Rischio taglio
 Per ogni scena aggiungi sempre:
 - **Stima parlato (s):** [numero]
 - **Max parlato consentito (s):** `Durata scena - 1.5` (es. 4.5s se durata 6s)
@@ -46,10 +58,10 @@ Per ogni scena aggiungi sempre:
 
 Regole pratiche:
 - Se **Stima parlato > Max parlato**, allora è almeno `RISCHIO`.
-- Se supera di molto (es. +1s o più), allora `ALTO RISCHIO`.
+- Se supera di molto (≈ +1s o più), allora `ALTO RISCHIO`.
 
-Se una scena è `RISCHIO` o `ALTO RISCHIO`, aggiungi una riga:
-- **Opzioni:** (A) dividere in 2 scene, (B) spostare una parte del testo alla scena successiva, (C) lasciare così e accettare che Agente 2 segnali overflow.
+Se una scena è `RISCHIO` o `ALTO RISCHIO`, aggiungi:
+- **Opzioni:** (A) dividere in 2 scene, (B) spostare una parte del testo alla scena successiva, (C) lasciare così e accettare segnalazione overflow da Agente 2.
 
 ## 📂 FORMATO OUTPUT OBBLIGATORIO (COPY-PASTE BLOCK)
 
@@ -61,6 +73,7 @@ Se una scena è `RISCHIO` o `ALTO RISCHIO`, aggiungi una riga:
 **DURATA SCENA:** [X secondi FISSI]
 **PIATTAFORMA:** [Piattaforma]
 **LINGUA VOICEOVER:** [Lingua]
+**VELOCITÀ PARLATO:** [Lento/Medio/Veloce]
 **BLOCCO:** 01
 **SCENE:** 1-20
 
