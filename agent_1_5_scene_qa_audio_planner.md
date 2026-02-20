@@ -19,25 +19,36 @@ Output: un pacchetto **pronto da incollare** in Agente 2, includendo:
 ## Regole chiave (CRITICHE)
 ### 1) COERENZA DECISIONI
 - Usa **A** SOLO se crei davvero sotto-scene (es. 9A/9B/9C) e le elenchi nella VOICEOVER MAP.
-- Usa **B** SOLO per spostamenti/assorbimenti tra scene (indica sempre testo spostato e destinazione).
-- Usa **C** SOLO se la scena resta invariata (nessuno split, nessuno spostamento).
+- Usa **B** SOLO per spostamenti/assorbimenti tra scene.
+- Usa **C** SOLO se la scena resta invariata.
 - Vietato scrivere "A ma nessuno split".
 
 ### 2) SCENE DA GENERARE (OBBLIGATORIO)
-Dopo aver applicato A/B/C, devi generare una lista ordinata delle unità finali che Agente 2 deve trasformare in prompt:
-Esempio: `1, 2, 3, 4, 5, 6, 7, 8, 9A, 9B, 9C, 10, 11A, 11B, ...`
+Dopo A/B/C, genera la lista ordinata delle unità finali (incluse sotto-scene).
 
-### 3) VOICEOVER MAP COMPLETA
-La VOICEOVER MAP deve includere:
-- tutte le scene finali,
-- tutte le sotto-scene create,
-- per le scene che ricevono testo (B), indica in nota breve: `(include testo da Scena X)`.
+### 3) VOICEOVER MAP COMPLETA (OBBLIGATORIA)
+La VOICEOVER MAP deve includere tutte le scene finali e tutte le sotto-scene.
+
+### 4) ANNOTAZIONI SPOSTAMENTI (OBBLIGATORIO, FORMATO ESATTO)
+Quando una scena include testo spostato (B), NON usare note vaghe tipo "include testo da Scena X".
+Devi usare questo formato, riportando la **frase esatta**:
+- `(include: "[frase identica]" da Scena X)`
+
+Esempio:
+- `SCENA 11A VO: "Ti stanno mentendo. ..." (include: "Ti stanno mentendo." da Scena 10)`
+
+### 5) GESTIONE OVERFLOW (OBBLIGATORIO)
+Se una scena è segnalata OVERFLOW:
+- Devi proporre una correzione **operativa** nella sezione `FIX OVERFLOW PLAN`:
+  - preferisci split in sotto-scene aggiuntive (es. 6A/6B/6C) mantenendo testo identico,
+  - evita di spostare a cascata se crea nuovi overflow.
 
 ## Metodo
-1) Leggi metadati e calcola max parlato.
+1) Leggi metadati e max parlato.
 2) Applica A/B/C.
 3) Genera `SCENE DA GENERARE`.
-4) Genera VOICEOVER MAP finale e marca eventuali residui `OVERFLOW` (senza cambiare parole).
+4) Genera VOICEOVER MAP con annotazioni `(include: ...)`.
+5) Compila `NOTE OVERFLOW` + `FIX OVERFLOW PLAN`.
 
 ## Formato output obbligatorio (unico blocco)
 
@@ -48,19 +59,25 @@ DURATA SCENA: 6s
 BUFFER AUDIO: 1.5s (max parlato 4.5s)
 
 ### 1) DECISIONI AUDIO (A/B/C)
-- Scena 9: A -> 9A/9B/9C
-- Scena 10: B -> sposta "..." a Scena 11
-- Scena 12: C
+...
 
 ### 2) SCENE DA GENERARE (FINALE)
-1, 2, 3, 4, 5, 6, 7, 8, 9A, 9B, 9C, 10, 11A, 11B, 12, ...
+...
 
 ### 3) VOICEOVER MAP (FINALE, PRONTO)
-SCENA 9A VO: "..."
-SCENA 11 VO: "..." (include testo da Scena 10)
+SCENA 2 VO: "..." (include: "..." da Scena 1)
+...
+
+### NOTE OVERFLOW
+- Scena X: OVERFLOW
+
+### FIX OVERFLOW PLAN
+- Scena X: Converti in XA/XB (o XA/XB/XC) con voiceover spezzato così:
+  - XA VO: "..."
+  - XB VO: "..."
 
 ### 4) NOTE VISIVE (FIX LIST)
-- ...
+...
 
 ### 5) PROMPT DA INCOLLARE IN AGENTE 2
 Istruzioni operative:
